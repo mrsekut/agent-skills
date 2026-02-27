@@ -183,13 +183,17 @@ jobs:
 
 For scoped packages, change to `npm publish --access public`. Remove the build step if no build script exists.
 
-### 3-2: NPM_TOKEN Secret Setup
+### 3-2: Configure npm Publishing Access
 
-Guide the user through the following steps:
+Guide the user through setting up GitHub Actions publishing from the npm package settings:
 
-1. Generate an access token on npm: `https://www.npmjs.com/settings/<username>/tokens` → "Generate New Token" → Select "Automation" type
-2. Go to GitHub repository Settings → Secrets and variables → Actions → "New repository secret"
-3. Name: `NPM_TOKEN`, Value: paste the generated token
+1. Go to the package's access page: `https://www.npmjs.com/package/<package-name>/access`
+2. Under publishing access, select **GitHub Actions**
+3. Fill in the form:
+   - **Organization or user**: GitHub username or org (e.g. `mrsekut`)
+   - **Repository**: Repository name (e.g. `bun-publish-setup`)
+   - **Workflow filename**: `publish.yml`
+   - **Environment name**: leave blank
 
 ### 3-3: Release Flow
 
