@@ -129,6 +129,8 @@ For scoped packages on first publish, `--access public` is required:
 bun publish --access public
 ```
 
+**Note:** On first publish, bun will prompt for browser-based npm authentication. Tell the user to press ENTER to open the authentication URL in their browser and complete the login. Wait for the user to confirm authentication is done before proceeding.
+
 ### 2-3: Verify Publication
 
 ```bash
