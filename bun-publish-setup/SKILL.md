@@ -169,16 +169,18 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           registry-url: "https://registry.npmjs.org"
+          node-version: 24
 
       - uses: oven-sh/setup-bun@v2
       - run: bun install --frozen-lockfile
+
+      - name: Update npm
+        run: npm install -g npm@latest
 
       # Include this step only if a build script exists
       - run: bun run build
 
       - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 ```
 
 For scoped packages, change to `npm publish --access public`. Remove the build step if no build script exists.
