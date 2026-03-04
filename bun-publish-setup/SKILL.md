@@ -173,6 +173,7 @@ jobs:
 
       - uses: oven-sh/setup-bun@v2
       - run: bun install --frozen-lockfile
+      - run: bun run build
 
       - name: Update npm
         run: npm install -g npm@latest
@@ -180,7 +181,7 @@ jobs:
       # Include this step only if a build script exists
       - run: bun run build
 
-      - run: npm publish
+      - run: npm publish --provenance --access public
 ```
 
 For scoped packages, change to `npm publish --access public`. Remove the build step if no build script exists.
