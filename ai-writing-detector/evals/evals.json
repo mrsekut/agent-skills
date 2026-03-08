@@ -1,0 +1,23 @@
+{
+  "skill_name": "ai-writing-detector",
+  "evals": [
+    {
+      "id": 1,
+      "name": "eval-ai-full",
+      "prompt": "以下の文章のAIっぽさをチェックしてください。\n\n---\n\nReactの状態管理を効率的に実現するための包括的なガイド\n\nReactアプリケーションにおいて、状態管理は非常に重要な要素です。適切な状態管理を実現することで、効率的な開発が可能になります。本記事では、Reactの状態管理における様々なアプローチを包括的に解説します。\n\nまず、useStateについて見ていきましょう。useStateは最もシンプルな状態管理手法です。コンポーネント内でローカルな状態を管理することが可能です。これにより、シームレスなユーザー体験を提供することができます。\n\nさらに、useReducerを活用することで、より複雑な状態管理を実現することが可能です。useReducerは、状態の更新ロジックをコンポーネントから分離することをサポートします。これにより、コードの保守性が向上します。\n\n加えて、Context APIを活用することで、プロップドリリングの問題を効果的に解決することが可能です。Context APIは、グローバルな状態を効率的に管理するための仕組みを提供します。\n\nまた、外部ライブラリとしてReduxやZustandなどの多様な選択肢が存在します。これらのライブラリを適切に活用することで、大規模なアプリケーションにおける状態管理を最適化することが可能です。\n\nまとめとして、状態管理の選択は非常に重要です。プロジェクトの要件に応じて適切なアプローチを選択することが大切です。効率的な状態管理を実現することで、高品質なアプリケーション開発が可能になります。\n\n---",
+      "expected_output": "文末の「です/ます」連続、AI頻出ワード（包括的、効率的、実現、活用、これにより、さらに、加えて、また）、具体性の欠如、テンプレート的構造などを指摘し、具体的な改善案を提示する"
+    },
+    {
+      "id": 2,
+      "name": "eval-partial-ai",
+      "prompt": "この文章にAIっぽい部分がないかチェックしてほしい。\n\n---\n\n先日、チームでTypeScriptのstrictモードを有効にした。それまでanyが300箇所以上あって、正直コードを触るたびにヒヤヒヤしていた。\n\nstrictモードを入れると当然大量のエラーが出る。最初は心が折れそうだったけど、1日20ファイルずつ直していく作戦にしたら、2週間で全部片付いた。\n\nこの取り組みにより、コードの品質が大幅に向上しました。型安全性を確保することで、バグの早期発見が可能になり、開発効率の最適化を実現することができました。さらに、チームメンバー全員がTypeScriptの型システムを効果的に活用できるようになりました。\n\n一番よかったのは、リファクタリングが怖くなくなったこと。型がガードしてくれるから、「この変更で何か壊れないかな」って不安にならなくなった。地味だけど、これが一番でかい。\n\n---",
+      "expected_output": "3段落目のみAIっぽい（これにより、大幅に向上、可能になり、最適化を実現、効果的に活用）と指摘し、1・2・4段落は自然な文体として評価する。過剰指摘しないことが重要"
+    },
+    {
+      "id": 3,
+      "name": "eval-mixed-lang",
+      "prompt": "AIっぽい表現がないかチェックして。\n\n---\n\nIn today's rapidly evolving landscape of web development, Next.js has emerged as a pivotal framework that enables developers to build robust and comprehensive applications. Let's delve into the key features that make this framework truly remarkable.\n\nNext.jsのApp Routerは、従来のPages Routerと比較して、より柔軟なルーティングを実現します。Server Componentsを活用することで、パフォーマンスの最適化が可能になります。これにより、ユーザー体験の向上を効果的にサポートすることができます。\n\nFurthermore, the framework provides a holistic approach to server-side rendering, leveraging cutting-edge technology to facilitate seamless data fetching. It is important to note that these features underscore the framework's commitment to developer experience.\n\n実際にApp Routerに移行してみた感想としては、最初はServer ComponentとClient Componentの境界がわかりにくくて混乱した。'use client'をどこに置くかで1時間悩んだこともある。ただ、慣れてくるとデータの流れが整理されて、結果的にコードはすっきりした。\n\n---",
+      "expected_output": "英語部分のAI表現（rapidly evolving landscape, pivotal, robust, comprehensive, delve into, holistic, leverage, facilitate, it is important to note, underscore）と日本語部分のAI表現（実現、活用、最適化が可能、これにより、効果的にサポート）を両方指摘する。最終段落は自然な体験ベースの文体として評価する"
+    }
+  ]
+}
