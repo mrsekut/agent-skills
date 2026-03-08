@@ -412,7 +412,7 @@ name: Publish Extension
 on:
   push:
     tags:
-      - "v*"
+      - "*"
 
 jobs:
   publish:
