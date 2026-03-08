@@ -439,6 +439,7 @@ Adjust according to the project setup:
 - **Package manager**: Change `npm ci` to match npm / yarn / pnpm
 - **Build step**: If `vscode:prepublish` is defined, `vsce publish` runs it automatically, so a separate build step is usually unnecessary
 - **Node.js version**: Match the project's requirements
+- **Do NOT add `npm test`**: VSCode extension tests (`vscode-test`) require a display server (X11) which is unavailable on standard CI runners, causing `SIGSEGV` crashes. If tests are needed in CI, use `xvfb-run` or a separate workflow
 
 ### 5-3: Release Flow Explanation
 
