@@ -21,10 +21,16 @@ agent-skillsリポジトリで開発中のスキルを `~/.claude/skills/` にsy
 1. ユーザーがsymlink化したいスキル名を指定する（指定がなければ、直近で作成・編集したスキルを推測して確認する）
 2. 対象スキルのディレクトリがリポジトリ内に存在することを確認する
 3. `~/.claude/skills/<スキル名>` に既存のsymlink（Nix storeへのリンク）があれば削除する
-4. リポジトリ内のスキルディレクトリへのsymlinkを作成する:
+4. リポジトリ内のスキル**ディレクトリ**へのsymlinkを作成する:
+
    ```
-   ln -sfn /Users/mrsekut/Desktop/dev/github.com/mrsekut/agent-skills/<スキル名> ~/.claude/skills/<スキル名>
+   ln -sfn /absolute/path/to/<スキルディレクトリ> ~/.claude/skills/<スキル名>
    ```
+
+   - **重要: リンク先は必ずSKILL.mdを含むディレクトリであること。SKILL.mdファイルを直接リンクしてはいけない。**
+   - 既存の `~/.claude/skills/` 内のNix storeリンクを見ればわかるが、すべてディレクトリへのリンクになっている
+   - agent-skills リポジトリ以外（例: 別リポジトリの `skills/` ディレクトリ内）にスキルがある場合も、そのディレクトリの絶対パスを使う
+
 5. symlinkが正しく張られたことを `ls -la` で確認し、結果を報告する
 
 ## 複数スキルの一括処理
