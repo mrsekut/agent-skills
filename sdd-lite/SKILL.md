@@ -55,51 +55,9 @@ mkdir -p ./.specs/{task-name}
 
 **次に進む前に、プロトタイピングを行うかどうかユーザーに確認してください。**
 
-### 目的
+**実行**: `/prototype` を使用
 
-- ユーザー体験と使いやすさを素早く検証する
-- 試してみないと想像しにくい要件を発見する
-- すべてのコード変更は確認後に破棄される
-
-### ガイドライン
-
-- **すべての型エラーとlintエラーを無視する** - 正確さよりもスピードを優先
-- 機能を体験するための最低限のものを構築する
-- 実装品質ではなく、使用時の「感触」に焦点を当てる
-- テストもクリーンなコードも不要 - 試せる程度に動けばよい
-
-### セットアップ
-
-git worktreeを使用してプロトタイプブランチを作成します:
-
-```bash
-git worktree add ../prototype-{task-name} -b prototype/{task-name}
-```
-
-worktreeディレクトリで作業します。メインの作業ディレクトリはクリーンなまま維持されます。
-
-### プロセス
-
-1. worktreeで大まかなプロトタイプを構築する（tsc/lintエラーは無視）
-2. ユーザーがプロトタイプを試してフィードバックを提供する
-3. 学びを `.specs/{task-name}/2-prototyping-learnings.md`（メインディレクトリ内）に記録する
-4. 後で参照するために有用なコードスニペットを学びのドキュメントに含める
-5. worktreeとブランチを削除する:
-   ```bash
-   git worktree remove ../prototype-{task-name}
-   git branch -D prototype/{task-name}
-   ```
-6. 新しい知見を持って要件定義フェーズに進む
-
-`.specs/{task-name}/2-prototyping-learnings.md` を作成します。フォーマットは [references/templates.md](references/templates.md#2-prototyping-learnings) を参照してください。
-
-内容:
-
-- プロトタイプでうまくいったこと
-- 違和感があったり問題があったりしたこと
-- 発見された要件や制約
-- 設計に影響を与えるべきUXの知見
-
+学びを `.specs/{task-name}/2-prototyping-learnings.md` に記録します。
 学びをユーザーに提示し、次に進む前に承認を得てください。
 
 ## フェーズ3: 要件定義
@@ -161,16 +119,15 @@ Domain Logic → Application Service → Controller → HTTP Handler
 
 ## フェーズ5: 実装計画
 
-設計をPRサイズの単位に分割します。
+設計をTracer Bullets方式の垂直スライスで分割します。各スライスはすべてのレイヤーをエンドツーエンドで貫通する薄い単位です。
 
-各PRごとに `.specs/{task-name}/5-implementation-plan-{N}.md` を作成します。フォーマットは [references/templates.md](references/templates.md#5-implementation-plan) を参照してください。
+各スライスごとに `.specs/{task-name}/5-implementation-plan-{N}.md` を作成します。フォーマットは [references/templates.md](references/templates.md#5-implementation-plan) を参照してください。
 
-### PR構造の戦略
+### 垂直スライスの原則
 
-タスクの特性に基づいて選択します:
-
-- **垂直（機能別）**: 1つの機能に対してすべてのレイヤーを横断する。機能が独立しており、早期のフィードバックが有効な場合に推奨。
-- **水平（レイヤー別）**: 一度に1つのレイヤーを構築する。コア設計がその上に構築する前に堅固である必要がある場合に使用。
+- 各スライスは、すべてのレイヤー（スキーマ、API、UI、テスト）を貫通する狭いが完全なパスを提供する
+- 完了したスライスは、それ単体でデモまたは検証が可能である
+- 少数の厚いスライスよりも、多数の薄いスライスを優先する
 
 ### ガイドライン
 
