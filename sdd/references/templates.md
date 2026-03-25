@@ -1,28 +1,28 @@
-# Document Templates
+# ドキュメントテンプレート
 
 ## 1-context
 
 ```markdown
-# Context: {Task Name}
+# コンテキスト: {タスク名}
 
-## Tech Stack
+## 技術スタック
 
 - Framework:
 - Language:
 - Key libraries:
 
-## Relevant Existing Code
+## 関連する既存コード
 
-- `path/to/file.ts`: Description of relevance
-- `path/to/component/`: Description of relevance
+- `path/to/file.ts`: 関連性の説明
+- `path/to/component/`: 関連性の説明
 
-## Project Conventions
+## プロジェクト規約
 
-- Naming:
-- Directory structure:
-- Patterns used:
+- 命名規則:
+- ディレクトリ構成:
+- 使用パターン:
 
-## Constraints
+## 制約事項
 
 -
 ```
@@ -30,31 +30,31 @@
 ## 2-prototyping-learnings
 
 ```markdown
-# Prototyping Learnings: {Task Name}
+# プロトタイピングの学び: {タスク名}
 
-## What Worked Well
-
--
-
-## What Felt Awkward
+## うまくいったこと
 
 -
 
-## Discovered Requirements
-
-Requirements or constraints that became apparent through prototyping:
+## 違和感があったこと
 
 -
 
-## UX Insights
+## 発見された要件
 
-Insights that should influence the design:
+プロトタイピングを通じて明らかになった要件や制約:
 
 -
 
-## Notes
+## UXに関する知見
 
-Additional observations:
+設計に影響を与えるべき知見:
+
+-
+
+## メモ
+
+追加の観察事項:
 
 -
 ```
@@ -62,39 +62,39 @@ Additional observations:
 ## 3-requirements
 
 ```markdown
-# Requirements: {Task Name}
+# 要件: {タスク名}
 
-## User Story
+## ユーザーストーリー
 
-As a [user type], I want to [action] so that [benefit].
+[ユーザー種別]として、[利益]を得るために、[操作]をしたい。
 
-## Acceptance Criteria
+## 受け入れ基準
 
-- [ ] Criteria 1
-- [ ] Criteria 2
-- [ ] Criteria 3
+- [ ] 基準 1
+- [ ] 基準 2
+- [ ] 基準 3
 
-## Scope
+## スコープ
 
-### In Scope
+### スコープ内
 
-- Item 1
-- Item 2
+- 項目 1
+- 項目 2
 
-### Out of Scope
+### スコープ外
 
-- Item 1
-- Item 2
+- 項目 1
+- 項目 2
 ```
 
 ## 4-design
 
 ````markdown
-# Design: {Task Name}
+# 設計: {タスク名}
 
-## Domain Models
+## ドメインモデル
 
-Core type definitions only. Not utility types or internal details.
+コアとなる型定義のみ。ユーティリティ型や内部の詳細は含まない。
 
 ```typescript
 interface Article {
@@ -105,17 +105,17 @@ interface Article {
 }
 ```
 
-## Feature Boundaries
+## 機能の境界
 
-| Feature | Responsibility          | Depends On    |
-| ------- | ----------------------- | ------------- |
-| article | Article CRUD operations | user, storage |
-| user    | User management         | -             |
-| storage | Persistence layer       | -             |
+| 機能    | 責務           | 依存先        |
+| ------- | -------------- | ------------- |
+| article | 記事のCRUD操作 | user, storage |
+| user    | ユーザー管理   | -             |
+| storage | 永続化レイヤー | -             |
 
-## Directory Structure (Package by Feature)
+## ディレクトリ構成（機能単位のパッケージング）
 
-Feature-level structure only. Not detailed file structure within each feature.
+機能レベルの構成のみ。各機能内の詳細なファイル構成は含まない。
 
 ```
 src/
@@ -127,82 +127,82 @@ src/
     └── utils/
 ```
 
-## Main Flow
+## メインフロー
 
-Main processing steps with data transformation.
+主要な処理ステップとデータ変換。
 
 1. `validateInput`: RawInput → ValidatedInput
 2. `fetchArticle`: ArticleId → Article
 3. `transformForDisplay`: Article → ArticleViewModel
 4. `render`: ArticleViewModel → ReactElement
 
-## Layer Structure
+## レイヤー構成
 
-Where each logic belongs. Push to core (innermost layer) as much as possible.
+各ロジックの配置先。できる限りコア（最も内側のレイヤー）に寄せる。
 
-Identify project's layer hierarchy first, then assign each logic.
+まずプロジェクトのレイヤー階層を特定し、次に各ロジックを割り当てる。
 
-Example layers (React):
+レイヤーの例（React）:
 
 ```
 Core → State → Hooks → Components
 ```
 
-Example layers (Backend):
+レイヤーの例（バックエンド）:
 
 ```
 Domain → Application → Controller → Handler
 ```
 
-| Logic         | Layer         | Reason                         |
-| ------------- | ------------- | ------------------------------ |
-| validateInput | Core          | Pure function, no dependencies |
-| fetchArticle  | Core          | Can be injected, testable      |
-| ...           | (outer layer) | Needs framework/infra          |
+| ロジック      | レイヤー           | 理由                          |
+| ------------- | ------------------ | ----------------------------- |
+| validateInput | Core               | 純粋関数、依存なし            |
+| fetchArticle  | Core               | 注入可能、テスト可能          |
+| ...           | （外側のレイヤー） | フレームワーク/インフラが必要 |
 ````
 
 ## 5-implementation-plan
 
 ```markdown
-# Implementation Plan {N}: {PR Title}
+# 実装計画 {N}: {PRタイトル}
 
-## Overview
+## 概要
 
-Brief description of what this PR accomplishes.
+このPRで達成する内容の簡潔な説明。
 
-## Dependencies
+## 依存関係
 
-- Requires: 5-implementation-plan-{X} (if any)
-- Blocks: 5-implementation-plan-{Y} (if any)
-- Parallel: Can run alongside 5-implementation-plan-{Z}
+- 前提: 5-implementation-plan-{X}（ある場合）
+- ブロック: 5-implementation-plan-{Y}（ある場合）
+- 並行: 5-implementation-plan-{Z} と並行して実行可能
 
-## Tasks
+## タスク
 
-### Setup
+### セットアップ
 
-- [ ] Task 1
-- [ ] Task 2
+- [ ] タスク 1
+- [ ] タスク 2
 
-### Core Implementation
+### コア実装
 
-- [ ] Task 3
-- [ ] Task 4
+- [ ] タスク 3
+- [ ] タスク 4
 
-### Reviewability
+### レビュー可能性
 
-How this PR can be reviewed:
+このPRのレビュー方法:
 
-- [ ] Tests demonstrate expected behavior
-- [ ] (or) Types define clear interfaces
-- [ ] (or) Working UI allows manual verification
+- [ ] テストが期待される振る舞いを示している
+- [ ] （または）型が明確なインターフェースを定義している
+- [ ] （または）動作するUIで手動検証が可能
 
-### Verification
+### 検証
 
-- [ ] tsc passes
-- [ ] lint passes
-- [ ] tests pass
+- [ ] tsc が通る
+- [ ] lint が通る
+- [ ] tests が通る
 
-## Suggested Commits
+## 推奨コミット
 
 1. `feat: add base structure for feature`
 2. `feat: implement core logic`

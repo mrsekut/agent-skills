@@ -1,210 +1,149 @@
 ---
 name: sdd
 description: >
-  Spec-driven development workflow for implementing features with structured documentation.
-  Use when starting a new feature, task, or implementation that benefits from upfront planning.
-  Triggers: /sdd, spec-driven, create spec, implementation plan, or when user describes a feature/task to implement.
+  仕様駆動開発のナビゲーター。タスクの規模を判断し、小規模なら即座にsdd-liteルートへ、
+  大規模ならPRD→プロトタイピング→Issue分解→TDD→アーキテクチャ改善のフルパイプラインを案内する。
+  トリガー: /sdd, spec-driven, 仕様駆動, 機能を実装したい, 新しいプロダクトを作りたい。
 ---
 
-# SDD - Spec Driven Development
+# SDD - 仕様駆動開発
 
-A structured workflow for implementing features through documentation-first development.
+タスクの規模に応じて適切な開発ワークフローに案内するナビゲーター。
 
-## Directory Setup
-
-Create spec directory for the task:
-
-```bash
-mkdir -p ./.specs/{task-name}
-```
-
-Name `{task-name}` based on the task (e.g., `create-article-component`, `add-user-auth`).
-
-## Phase Overview
+## フルパイプライン
 
 ```
-1. Context Analysis    → 1-context.md
-2. Prototyping (opt)   → 2-prototyping-learnings.md
-3. Requirements        → 3-requirements.md
-4. Design              → 4-design.md
-5. Implementation Plan → 5-implementation-plan-{N}.md
-6. Implementation      → (PR loop)
+Phase 1: PRD作成          → /write-a-prd
+Phase 2: プロトタイピング  → /prototype
+Phase 3: Issue分解        → /prd-to-issues
+Phase 4: 実装(TDD)        → /tdd
+Phase 5: アーキテクチャ改善 → /improve-codebase-architecture
 ```
 
-Each phase: Create document → Present to user → Get approval → Next phase
+## 起動時の手順
 
-## Phase 1: Context Analysis
+### 1. 状態を確認する
 
-Analyze the existing codebase to understand patterns and constraints.
+まず `.specs/` ディレクトリを確認し、進行中のプロジェクトがあるか調べる。
 
-Create `.specs/{task-name}/1-context.md`. See [references/templates.md](references/templates.md#1-context) for format.
+- `.specs/{project}/progress.md` が存在する → 途中から再開（ステップ3へ）
+- 存在しない → 新規開始（ステップ2へ）
 
-Contents:
+### 2. 規模を判断する
 
-- Tech stack and frameworks
-- Relevant existing code/components
-- Project conventions (naming, structure)
-- Constraints or limitations
+ユーザーにタスクの概要を聞き、以下の基準で判断する：
 
-Present to user and get approval before proceeding.
+**sdd-liteルート**（`/sdd-lite` を案内）:
 
-## Phase 2: Prototyping (Optional)
+- 既存機能への小〜中規模の追加・変更
+- 1セッションで完結しそう
+- 要件が明確で、深い検討が不要
+- 1人で実装する
 
-Rapidly build a throwaway prototype to understand user experience before defining requirements.
+**フルルート**（このスキルで続行）:
 
-**Ask the user if they want to do prototyping before proceeding.**
+- 新しいプロダクトや大きな機能
+- 要件が曖昧で、検証が必要
+- 複数セッションにまたがる
+- チームでの共有が必要（PRD, Issue）
+- アーキテクチャへの影響が大きい
 
-### Purpose
+判断に迷う場合はユーザーに「フルプロセスで進めますか？それとも軽量版で十分ですか？」と確認する。
 
-- Quickly validate the user experience and usability
-- Discover requirements that are hard to imagine without trying
-- All code changes will be discarded after confirmation
+### 3. 現在のフェーズを特定して案内する
 
-### Guidelines
+`.specs/{project}/progress.md` を確認し、次に実行すべきスキルを案内する。
 
-- **Ignore all type errors and lint errors** - speed over correctness
-- Build the minimum to experience the feature
-- Focus on the "feel" of using it, not the implementation quality
-- No tests, no clean code - just make it work enough to try
+`progress.md` が存在しない場合は新規作成し、Phase 1から開始する。
 
-### Setup
-
-Create a prototype branch using git worktree:
-
-```bash
-git worktree add ../prototype-{task-name} -b prototype/{task-name}
-```
-
-Work in the worktree directory. The main working directory stays clean.
-
-### Process
-
-1. Build a rough prototype in the worktree (ignore tsc/lint errors)
-2. User tries the prototype and provides feedback
-3. Document learnings in `.specs/{task-name}/2-prototyping-learnings.md` (in main directory)
-4. Include useful code snippets in the learnings doc for later reference
-5. Remove the worktree and branch:
-   ```bash
-   git worktree remove ../prototype-{task-name}
-   git branch -D prototype/{task-name}
-   ```
-6. Proceed to Requirements phase with new insights
-
-Create `.specs/{task-name}/2-prototyping-learnings.md`. See [references/templates.md](references/templates.md#2-prototyping-learnings) for format.
-
-Contents:
-
-- What worked well in the prototype
-- What felt awkward or wrong
-- Discovered requirements or constraints
-- UX insights that should influence design
-
-Present learnings to user and get approval before proceeding.
-
-## Phase 3: Requirements Definition
-
-Define WHAT the task should accomplish, not HOW.
-
-Create `.specs/{task-name}/3-requirements.md`. See [references/templates.md](references/templates.md#3-requirements) for format.
-
-**If prototyping was done**: Reference `2-prototyping-learnings.md` to incorporate discovered insights.
-
-Guidelines:
-
-- Use user story format
-- List acceptance criteria as checkboxes
-- Define scope boundaries (in/out of scope)
-- Keep concise: max 5 items per section
-- No technical implementation details
-- Mark ambiguous requirements with `[NEEDS CLARIFICATION]` (e.g., `User can authenticate [NEEDS CLARIFICATION: OAuth? Password?]`)
-
-All `[NEEDS CLARIFICATION]` markers must be resolved before approval.
-
-Present to user and get approval before proceeding.
-
-## Phase 4: Design
-
-Define the implementation direction at an architectural level. Not implementation details.
-
-Create `.specs/{task-name}/4-design.md`. See [references/templates.md](references/templates.md#4-design) for format.
-
-Contents:
-
-- **Domain Models**: Core type definitions only (not utility types or internal details)
-- **Feature Boundaries**: What features exist, their responsibilities (1 line each), dependencies between them
-- **Directory Structure**: Feature-level package structure only (not detailed files within each feature)
-- **Main Flow**: Key processing steps with data transformation (e.g., `validateInput: FormInput → ValidatedInput`)
-- **Layer Structure**: Where each logic belongs in the project's layer hierarchy
-
-### Design Principle: Push Logic to Core
-
-Write core logic first, independent of framework or infrastructure. The core should not know whether it's used by React, CLI, server, etc.
-
-Every project has a layer hierarchy (inner = more pure, outer = more side-effectful). Always push logic as far inward as possible.
-
-Example (React project):
+各フェーズの案内テンプレート：
 
 ```
-Core (pure functions) → State (jotai) → Hooks → Components
+現在のプロジェクト: {project-name}
+完了済み: Phase 1 (PRD作成)
+次のステップ: Phase 2 (プロトタイピング)
+
+→ プロトタイピングを行いますか？
+  - はい → `/prototype` を実行してください。
+  - スキップ → Phase 3 (Issue分解) に進みます。`/prd-to-issues` を実行してください。
 ```
 
-Example (Backend project):
+## progress.md のフォーマット
 
-```
-Domain Logic → Application Service → Controller → HTTP Handler
-```
+各フェーズ完了時に `.specs/{project}/progress.md` を更新する。
 
-Identify your project's layers and document where each logic belongs. Benefits: easier testing, better reusability, clearer boundaries.
+```markdown
+# {project-name} 進捗
 
-Present to user and get approval before proceeding.
+## フェーズ状況
 
-## Phase 5: Implementation Plan
+| Phase | 名前               | 状態        | 成果物                      | 完了日     |
+| ----- | ------------------ | ----------- | --------------------------- | ---------- |
+| 1     | PRD作成            | done        | 1-prd.md (GitHub Issue #42) | 2026-03-25 |
+| 2     | プロトタイピング   | skipped     | -                           | -          |
+| 3     | Issue分解          | in_progress | -                           | -          |
+| 4     | 実装(TDD)          | pending     | -                           | -          |
+| 5     | アーキテクチャ改善 | pending     | -                           | -          |
 
-Break down the design into PR-sized units.
+## メモ
 
-Create `.specs/{task-name}/5-implementation-plan-{N}.md` for each PR. See [references/templates.md](references/templates.md#5-implementation-plan) for format.
-
-### PR Structure Strategy
-
-Choose based on task characteristics:
-
-- **Vertical (by feature)**: Slice through all layers for one feature. Preferred when features are independent and early feedback is valuable.
-- **Horizontal (by layer)**: Build one layer at a time. Use when core design needs to be solid before building on top.
-
-### Guidelines
-
-- One file per PR
-- PR unit = reviewable size
-- Each PR must define how it will be reviewed (tests, types, working UI, etc.)
-- Include checkbox tasks for progress tracking
-- Show task dependencies (what can run in parallel)
-- Commits are suggestions, adjust during implementation
-
-Present all plans to user and get approval before proceeding.
-
-## Phase 6: Implementation
-
-Execute implementation plans PR by PR.
-
-### PR Loop
-
-For each `5-implementation-plan-{N}.md`:
-
-```
-1. Execute tasks (check boxes as you go)
-2. Suggest commit messages (do NOT run git commands)
-3. Run verification: tsc, lint, test
-4. Check: Do learnings require updates to 3-requirements.md or 4-design.md?
-   - Yes → Update documents, review impact on remaining plans
-   - No → Continue
-5. Present to user for approval
-6. User OK → Next PR
-   User NG → Address feedback, repeat from step 3
+- Phase 2はスキップ。要件が明確なため。
 ```
 
-### Important Rules
+状態の値: `pending`, `in_progress`, `done`, `skipped`
 
-- Follow 3-requirements.md and 4-design.md strictly
-- Update specs directly when learnings emerge (no separate learnings file)
-- Suggest commit messages but never execute git commands
-- Run `tsc`/`lint`/`test` before user confirmation
+## 各フェーズの詳細
+
+### Phase 1: PRD作成
+
+問題定義、解決策、ユーザーストーリー、技術的決定事項を文書化する。
+
+**実行**: `/write-a-prd` を使用
+
+**完了条件**: PRDがGitHub issueとして作成された
+
+**成果物**: `.specs/{project}/1-prd.md` にPRDのローカルコピーを保存し、GitHub issue番号を記録
+
+### Phase 2: プロトタイピング（オプション）
+
+使い捨てのプロトタイプで体験を検証する。
+
+**スキップ条件**: 要件が明確で、UIの「感触」の検証が不要な場合
+
+**実行**: `/prototype` を使用
+
+**成果物**: `.specs/{project}/2-prototype-notes.md`
+
+### Phase 3: Issue分解
+
+PRDをトレーサーバレット方式の垂直スライスに分割し、GitHub issueとして作成する。
+
+**実行**: `/prd-to-issues` を使用（Phase 1で作成したPRDのissue番号を渡す）
+
+**完了条件**: すべてのissueがGitHub上に作成された
+
+**成果物**: `.specs/{project}/3-issues.md` に作成されたissue一覧を記録
+
+### Phase 4: 実装(TDD)
+
+Phase 3で作成したissueをTDDで実装する。
+
+**実行**: 各issueに対して `/tdd` を使用
+
+**完了条件**: すべてのissueがクローズされた
+
+### Phase 5: アーキテクチャ改善（オプション）
+
+実装後のコードベースを探索し、リファクタリングの機会を発見する。
+
+**スキップ条件**: 小規模な変更で、アーキテクチャへの影響が軽微な場合
+
+**実行**: `/improve-codebase-architecture` を使用
+
+## 重要なルール
+
+- 各フェーズ完了時に必ず `progress.md` を更新する
+- フェーズはスキップ可能だが、その判断はユーザーに確認する
+- フェーズの順序を入れ替えない（依存関係がある）
+- 前のフェーズの成果物を次のフェーズで参照する
+- セッションの最初に `progress.md` を確認し、途中から再開できるようにする
