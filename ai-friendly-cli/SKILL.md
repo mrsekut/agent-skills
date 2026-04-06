@@ -77,10 +77,34 @@ AIエージェントがCLIツールを使うとき、人間とは根本的に異
 
 ### 1. Claude Code SKILL.md [HIGH]
 
-リポジトリにClaude Code向けスキルを同梱する。ユーザーが `cp -r` でインストールし、
-AIがツールを使い始めるとき最初に読むファイルになる。
-ツールの目的、コマンド一覧、典型的なワークフロー、注意点をまとめる。
-SessionStart hookでのコンテキスト注入、PreToolUse hookでの安全装置も含む。
+リポジトリ内に `skills/{tool-name}/SKILL.md` として配置し、ユーザーに配布する。
+ユーザーは `npx skills add owner/repo` や手動コピーで `~/.claude/skills/` にインストールする。
+ルートに直接SKILL.mdを置いてはいけない。必ず `skills/{tool-name}/` ディレクトリを作ること。
+
+```
+my-tool/
+├── src/
+├── skills/
+│   └── my-tool/
+│       ├── SKILL.md        # AIが最初に読むファイル
+│       ├── README.md       # インストール手順（人間向け）
+│       └── references/     # 詳細ドキュメント（必要に応じて）
+└── README.md
+```
+
+SKILL.mdは必ずYAMLフロントマターから始めること。これがないとスキルとして認識されない:
+
+```yaml
+---
+name: my-tool
+description: >
+  ツールの説明。トリガー条件のフレーズも含める。
+---
+```
+
+`name` と `description` は必須。`# 見出し` から始めてはいけない。
+フロントマターの後に、ツールの目的、コマンド一覧、ワークフロー、注意点をまとめる。
+テンプレートと詳細は `references/patterns.md` のセクション1を参照。
 
 ### 2. 構造化出力 [HIGH]
 
