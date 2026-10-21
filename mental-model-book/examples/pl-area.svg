@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 520" width="800" height="520" font-family="'Hiragino Sans', 'Noto Sans JP', sans-serif">
+  <!-- 1% = 4px。上端 y=70、下端 y=470（100% = 400px） -->
+  <rect width="800" height="520" fill="#ffffff"/>
+  <text x="400" y="36" text-anchor="middle" font-size="22" font-weight="bold" fill="#222">損益の面積図（売上高 = 100%）</text>
+
+  <!-- 左列: 費用・利益 x=220..420 -->
+  <rect x="220" y="70"  width="200" height="160" fill="#e8a33d" stroke="#fff" stroke-width="2"/>
+  <rect x="220" y="230" width="200" height="180" fill="#5b8fd9" stroke="#fff" stroke-width="2"/>
+  <rect x="220" y="410" width="200" height="60"  fill="#4caf7a" stroke="#fff" stroke-width="2"/>
+  <text x="320" y="146" text-anchor="middle" font-size="18" fill="#fff" font-weight="bold">売上原価</text>
+  <text x="320" y="172" text-anchor="middle" font-size="16" fill="#fff">40%</text>
+  <text x="320" y="316" text-anchor="middle" font-size="18" fill="#fff" font-weight="bold">販管費</text>
+  <text x="320" y="342" text-anchor="middle" font-size="16" fill="#fff">45%</text>
+  <text x="320" y="446" text-anchor="middle" font-size="16" fill="#fff" font-weight="bold">営業利益 15%</text>
+
+  <!-- 右列: 売上高 x=420..620 -->
+  <rect x="420" y="70" width="200" height="400" fill="#7a7a8c" stroke="#fff" stroke-width="2"/>
+  <text x="520" y="262" text-anchor="middle" font-size="20" fill="#fff" font-weight="bold">売上高</text>
+  <text x="520" y="290" text-anchor="middle" font-size="16" fill="#fff">100%</text>
+
+  <!-- 粗利 = 販管費 + 営業利益 = 60%（y=230..470） -->
+  <path d="M 205 232 L 195 232 L 195 468 L 205 468" fill="none" stroke="#333" stroke-width="2"/>
+  <text x="185" y="346" text-anchor="end" font-size="16" fill="#333">（粗利 60%）</text>
+
+  <text x="320" y="500" text-anchor="middle" font-size="14" fill="#555">費用・利益</text>
+  <text x="520" y="500" text-anchor="middle" font-size="14" fill="#555">収益</text>
+</svg>
