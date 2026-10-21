@@ -30,6 +30,7 @@ python3 <skill_dir>/scripts/prepare.py <book_dir> <scratchpad>/book-to-cosense -
 - `[text](chNN.md)` 形式の md リンクを、リンク先の章の H1 を使った `[<章のH1>]` に置換する（md2cosense はそのままだと `[ch01.md text]` という壊れたリンクにする）
 - README の H1 の直下に `#ai-book` 行を挿入する
 - 手順5で追記した `Cosense: ...` 行があれば除く（再投稿時用）
+- `figures/` など md 以外のファイルも同じ相対パスでコピーする。本文の `![説明](figures/xxx.svg)` は md2cosense が投稿先 project にアップロードし、画像として埋め込む
 
 出力（ファイル名とページタイトルの対応）はあとで使う。
 
@@ -41,6 +42,7 @@ md2cosense <scratchpad>/book-to-cosense -p <project> --dry-run
 
 - `[dry-run] https://...` の URL 末尾に `_2` などが付くページは、**同名ページが既に存在する**。再投稿か別の本との衝突かを判断できないので、該当ページを列挙して扱いをユーザーに聞く（既存を消してから投稿する / 衝突ページだけ除いて投稿する / やめる）
 - リンク変換・タグ行が意図どおりかもここで見る
+- 図があれば `🖼  figures/xxx.svg (will be uploaded)` と出る。`Image not found` で失敗したページは、本文の画像パスが間違っている
 
 ### 4. 投稿する
 

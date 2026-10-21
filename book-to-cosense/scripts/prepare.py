@@ -6,6 +6,7 @@ usage: prepare.py <book_dir> <out_dir> [--tag ai-book]
 - 各 md 内の `[text](chNN.md)` を、リンク先章の H1 を使った Cosense リンク `[<H1>]` に置換
 - README.md の H1 直下にタグ行 `#<tag>` を挿入
 - README.md から既存の `Cosense: ...` 行（逆参照用に追記したもの）を除く
+- figures/ など md 以外のファイルも同じ相対パスでコピーする（md2cosense が画像の相対パスを解決するため）
 元のディレクトリは変更しない。
 """
 import argparse
@@ -33,7 +34,8 @@ def main() -> None:
     src, out = Path(args.book_dir).resolve(), Path(args.out_dir)
     if out.exists():
         shutil.rmtree(out)
-    out.mkdir(parents=True)
+    # md は下で変換して書き出す。隠しファイルは不要
+    shutil.copytree(src, out, ignore=shutil.ignore_patterns("*.md", ".*"))
 
     titles = {p.name: h1(p) for p in src.glob("*.md")}
 
